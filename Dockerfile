@@ -11,6 +11,8 @@ COPY . .
 # بناء التطبيق كـ full-stack مع دعم SSR ومسارات API.
 RUN npm run build
 RUN test -f dist/server/server.js
+# بعض المنصّات تستدعي تلقائياً dist/server/index.js — رابط له نفس نقطة تشغيل server.js.
+RUN ln -sf server.js dist/server/index.js
 
 ENV NODE_ENV=production
 

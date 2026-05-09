@@ -23,8 +23,7 @@ export default defineConfig({
         },
       }
     : {
-        // Use the Node.js server preset so dist/server/index.js is a proper
-        // Node.js HTTP server that respects the PORT environment variable.
+        // preset node يُنشئ نقطة تشغيل في dist/server/server.js؛ يستخدم PORT البيئة.
         server: {
           preset: "node",
         },

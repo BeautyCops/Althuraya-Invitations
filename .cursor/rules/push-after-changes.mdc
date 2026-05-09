@@ -1,10 +1,11 @@
 ---
-description: بعد التعديلات على الكود، التزم ثم ادفع إلى origin/main تلقائياً
+description: أي نشر أو دفع تنفذه أنت مباشرة؛ الالتزام والدفع لـ origin/main بعد التعديلات
 alwaysApply: true
 ---
 
 # نشر التغييرات على GitHub
 
+- **التنفيذ المباشر:** أي طلب أو سياق ينطبق عليه «نشر» أو «دفع» إلى Git (أو ما يعادله في المشروع)، نفِّذه **أنت** في الطرفية فوراً (أوامر `git`، نشر Cloudflare عندما يكون الرمز متوفراً، إلخ). لا تكتفِ بتعليمات للمستخدم يدوياً إلا إذا تعذّر التنفيذ فعلياً (مثلاً فشل مصادقة Git).
 - بعد إنهاء أي مهمة تعدّل ملفات المشروع (`src/`، الإعدادات، إلخ): نفِّذ `git status`، ثم `git add` للملفات ذات الصلة، ثم `git commit` برسالة واضحة، ثم `git push origin main`.
 - لا تؤجل الدفع إلى ما بعد المحادثة ما لم يمنع التشغيل (فشل مصادقة، أو طلب المستخدم الصريح بعدم الدفع).
 - النشر إلى الويب: الدفع إلى `main` يشغّل GitHub Actions ([`.github/workflows/deploy-github-pages.yml`](.github/workflows/deploy-github-pages.yml)) لبناء GitHub Pages (`GH_PAGES=1 npm run build`). لا يُفترض وجود `CLOUDFLARE_API_TOKEN` محلياً؛ نشر Cloudflare يدويًا فقط إذا جهّز المستخدم الرمز في البيئة (`npm run deploy:cloudflare`).

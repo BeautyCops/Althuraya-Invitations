@@ -17,4 +17,4 @@ EXPOSE 3000
 
 # تشغيل خادم Node.js. استخدام صيغة الـ CMD shell حتى لا يطبِّع Docker المتغير $PORT وقت البناء
 # فيُثبَّت المنفذ خطأ؛ Railway يحقن PORT عند التشغيل فقط.
-CMD exec node dist/server/index.js
+CMD PORT=${PORT:-3000} exec node dist/server/index.js

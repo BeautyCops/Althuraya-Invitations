@@ -10,11 +10,12 @@ COPY . .
 
 # بناء التطبيق كـ full-stack مع دعم SSR ومسارات API.
 RUN npm run build
+RUN test -f dist/server/index.js
 
 ENV NODE_ENV=production
 
 EXPOSE 3000
 
-# تشغيل خادم Node.js. استخدام صيغة الـ CMD shell حتى لا يطبِّع Docker المتغير $PORT وقت البناء
-# فيُثبَّت المنفذ خطأ؛ Railway يحقن PORT عند التشغيل فقط.
+# SSR + API عبر preset node في vite.config؛ لا تستخدم هنا «serve» للملفات الثابتة فقط أو يظهر فهرس مجلدات.
+# متغير PORT يُحقنه Railway عند التشغيل.
 CMD PORT=${PORT:-3000} exec node dist/server/index.js

@@ -5,7 +5,6 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "restartPolicyType": "ON_FAILURE",
-    "startCommand": "/bin/sh -c \"exec ./node_modules/.bin/serve dist/client -s --no-clipboard --listen tcp://0.0.0.0:$PORT\""
+    "restartPolicyType": "ON_FAILURE"
   }
 }

@@ -9,8 +9,9 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 const ghPages = process.env.GH_PAGES === "true" || process.env.GH_PAGES === "1";
 
 export default defineConfig({
-  // GitHub Pages: static HTML فقط — بدون Cloudflare Worker
-  cloudflare: ghPages ? false : undefined,
+  // Always disable the Cloudflare adapter — Railway runs Node.js, not a Cloudflare Worker.
+  // For GitHub Pages we also don't need Cloudflare (static prerender only).
+  cloudflare: false,
   tanstackStart: ghPages
     ? {
         prerender: {
@@ -21,7 +22,13 @@ export default defineConfig({
           failOnError: true,
         },
       }
-    : undefined,
+    : {
+        // Use the Node.js server preset so dist/server/index.js is a proper
+        // Node.js HTTP server that respects the PORT environment variable.
+        server: {
+          preset: "node",
+        },
+      },
   vite: {
     base: process.env.VITE_BASE?.trim() || "/",
   },

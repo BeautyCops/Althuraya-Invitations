@@ -1,3 +1,6 @@
+# اختياري (لم يعود في الجذر): بناء الصورة محليًا أو منصّة تطلب Dockerfile صريحة.
+# أمثلة: docker build -f docker/Dockerfile .
+#
 # glibc لتقليل أعطال الـ natives مقارنة بـ Alpine (مثل lightningcss/esbuild على musl).
 #
 # مرحلتان لتقليل حجم الإيميج وحمل «image push» على Railway (~400MB+ كان يسهّل التعليق).

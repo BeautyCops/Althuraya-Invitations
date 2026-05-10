@@ -36,5 +36,6 @@ ENV HOST=0.0.0.0
 EXPOSE 3000
 
 # Railway يحقن PORT تلقائيًا؛ لا تضعي ENV PORT ثابتًا في الصورة.
+# خادم التشغيل: srvx يخدم طلب `/assets/*` من `dist/client` (--static)، ويجب `--dir .` حتى لا يُحسب المسار نسبياً إلى `dist/server/` (فيُصبح dist/server/dist/client ويفشل CSS/صور).
 
-CMD ["node", "node_modules/srvx/bin/srvx.mjs", "serve", "--prod", "--host", "0.0.0.0", "--entry", "dist/server/server.js"]
+CMD ["node", "node_modules/srvx/bin/srvx.mjs", "serve", "--prod", "--host", "0.0.0.0", "--dir", ".", "--static", "dist/client", "--entry", "dist/server/server.js"]

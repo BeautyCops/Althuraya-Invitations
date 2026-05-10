@@ -12,7 +12,7 @@
     "build:github-pages": "cross-env GH_PAGES=1 npm run build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
-    "start": "srvx serve --prod --host 0.0.0.0 --entry dist/server/server.js",
+    "start": "srvx serve --prod --host 0.0.0.0 --dir . --static dist/client --entry dist/server/server.js",
     "deploy:cloudflare": "npm run build && wrangler deploy --config dist/server/wrangler.json",
     "lint": "eslint .",
     "format": "prettier --write ."

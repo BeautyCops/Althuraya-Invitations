@@ -6,6 +6,6 @@
   },
   "deploy": {
     "restartPolicyType": "ON_FAILURE",
-    "startCommand": "node dist/server/server.js"
+    "startCommand": "node /app/dist/server/server.js"
   }
 }

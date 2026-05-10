@@ -88,6 +88,8 @@ function raceMigrate() {
   ]);
 }
 
+let exitCode = 0;
+
 try {
   await client`SELECT 1 AS ping`;
   console.log("[migrate] اتصلت بـ Postgres (ping OK).");
@@ -95,7 +97,13 @@ try {
   console.log("[migrate] اكتملت الترحيلات.");
 } catch (e) {
   console.error("[migrate] فشل:", e);
-  process.exit(1);
+  exitCode = 1;
 } finally {
-  await client.end({ timeout: 10 });
+  try {
+    await client.end({ timeout: 10 });
+  } catch {
+    /* تجاهُل أخطاء الإغلاق — قد لا تكون قابلة لتدمير بعض المقابض فورًا */
+  }
 }
+
+process.exit(exitCode);

@@ -6,7 +6,7 @@
   },
   "deploy": {
     "restartPolicyType": "ON_FAILURE",
-    "startCommand": "node dist/server/server.js",
+    "startCommand": "/bin/sh -c \"exec node dist/server/server.js\"",
     "healthcheckPath": "/api/health",
     "healthcheckTimeout": 120
   }

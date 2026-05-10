@@ -23,7 +23,7 @@ export default defineConfig({
         },
       }
     : {
-        // preset node يُنشئ نقطة تشغيل في dist/server/server.js؛ يستخدم PORT البيئة.
+        // preset node → Nitro؛ يقرأ PORT/NITRO_PORT وHOST/NITRO_HOST (انظر Dockerfile وrailway).
         server: {
           preset: "node",
         },

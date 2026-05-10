@@ -30,9 +30,12 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
 ENV NODE_ENV=production
+# Nitro (tanstack preset node): NITRO_PORT ← PORT؛ الاستضافة ← NITRO_HOST ← HOST (- يجب 0.0.0.0 على Railway، ليس localhost)
 ENV HOST=0.0.0.0
 ENV NITRO_HOST=0.0.0.0
 
 EXPOSE 3000
+
+# Railway يحقن PORT تلقائيًا؛ لا تضعي ENV PORT ثابتًا في الصورة.
 
 CMD ["node", "--unhandled-rejections=strict", "dist/server/server.js"]

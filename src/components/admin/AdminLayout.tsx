@@ -104,6 +104,21 @@ export function AdminLayout() {
           <div className="flex items-center gap-3 ms-auto">
             <button
               type="button"
+              className="rounded-lg border border-th-lavender/25 px-3 py-1.5 text-sm text-th-cream hover:bg-th-deep/80"
+              onClick={() => {
+                void (async () => {
+                  await fetch("/api/auth/logout", {
+                    method: "POST",
+                    credentials: "include",
+                  });
+                  window.location.href = "/login";
+                })();
+              }}
+            >
+              خروج
+            </button>
+            <button
+              type="button"
               className="relative text-th-lavender hover:text-th-cream"
               aria-label="الإشعارات"
             >

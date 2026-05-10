@@ -27,6 +27,8 @@ WORKDIR /app
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/drizzle ./drizzle
+COPY --from=builder /app/scripts ./scripts
 
 ENV NODE_ENV=production
 # خادم التشغيل: حزمة srvx (مع TanStack Start) تربط HTTP وتمرّر الطلبات إلى default export (fetch).
@@ -38,4 +40,5 @@ EXPOSE 3000
 # Railway يحقن PORT تلقائيًا؛ لا تضعي ENV PORT ثابتًا في الصورة.
 # خادم التشغيل: srvx يخدم طلب `/assets/*` من `dist/client` (--static)، ويجب `--dir .` حتى لا يُحسب المسار نسبياً إلى `dist/server/` (فيُصبح dist/server/dist/client ويفشل CSS/صور).
 
-CMD ["node", "node_modules/srvx/bin/srvx.mjs", "serve", "--prod", "--host", "0.0.0.0", "--dir", ".", "--static", "dist/client", "--entry", "dist/server/server.js"]
+# ترحيلات Drizzle ثم تشغيل SSR (المجلد drizzle و scripts من نسخة البناء).
+CMD ["/bin/sh", "-c", "node scripts/run-migrate.mjs && exec node node_modules/srvx/bin/srvx.mjs serve --prod --host 0.0.0.0 --dir . --static dist/client --entry dist/server/server.js"]

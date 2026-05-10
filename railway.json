@@ -6,7 +6,7 @@
   },
   "deploy": {
     "restartPolicyType": "ON_FAILURE",
-    "startCommand": "/bin/sh -c \"exec node node_modules/srvx/bin/srvx.mjs serve --prod --entry dist/server/server.js\"",
+    "startCommand": "/bin/sh -c \"exec node node_modules/srvx/bin/srvx.mjs serve --prod --host 0.0.0.0 --entry dist/server/server.js\"",
     "healthcheckPath": "/",
     "healthcheckTimeout": 180
   }

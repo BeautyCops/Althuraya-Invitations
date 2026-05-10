@@ -37,4 +37,4 @@ EXPOSE 3000
 
 # Railway يحقن PORT تلقائيًا؛ لا تضعي ENV PORT ثابتًا في الصورة.
 
-CMD ["node", "node_modules/srvx/bin/srvx.mjs", "serve", "--prod", "--entry", "dist/server/server.js"]
+CMD ["node", "node_modules/srvx/bin/srvx.mjs", "serve", "--prod", "--host", "0.0.0.0", "--entry", "dist/server/server.js"]

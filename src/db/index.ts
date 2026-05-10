@@ -2,16 +2,19 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import * as schema from "./schema";
-import { getPostgresJsClientOptions } from "@/lib/server/pg-options";
+import {
+  databaseUrlFromEnv,
+  getPostgresJsClientOptions,
+} from "@/lib/server/pg-options";
 
 let client: ReturnType<typeof postgres> | null = null;
 let instance: ReturnType<typeof drizzle<typeof schema>> | null = null;
 
 export function getDb() {
-  const url = process.env.DATABASE_URL?.trim();
+  const url = databaseUrlFromEnv();
   if (!url) {
     throw new Error(
-      "DATABASE_URL غير معرّف. أضيفيه في Railway Variables أو في .env للتطوير المحلي.",
+      "رابط Postgres غير معرّف (DATABASE_URL أو DATABASE_PUBLIC_URL / DATABASE_PRIVATE_URL على Railway، أو .env محليًا).",
     );
   }
   if (!instance) {

@@ -1,6 +1,15 @@
 import type postgres from "postgres";
 
-/** يستخرج اسم المضيف من `DATABASE_URL` (يشمل postgres:// وpostgresql:// وIPv6). */
+/** رابط Postgres من البيئة (يشمل أسماء Railway: PUBLIC / PRIVATE). */
+export function databaseUrlFromEnv(): string {
+  const u =
+    process.env.DATABASE_URL ??
+    process.env.DATABASE_PRIVATE_URL ??
+    process.env.DATABASE_PUBLIC_URL;
+  return typeof u === "string" ? u.trim() : "";
+}
+
+/** يستخرج اسم المضيف من عنوان الاتصال (يشمل postgres:// وpostgresql:// وIPv6). */
 export function postgresHostnameFromDatabaseUrl(databaseUrl: string): string | null {
   const u = databaseUrl.trim();
   if (!u) return null;
@@ -24,12 +33,13 @@ function isLikelyPlaintextPgHost(hostname: string): boolean {
   );
 }
 
-/** مزامن منطقيًا مع `scripts/run-migrate.mjs` عند التعديل. */
+/** مزامن منطقيًا مع `scripts/run-migrate.mjs` و `scripts/database-url-from-env.mjs`. */
 export function getPostgresJsClientOptions(
   max: number,
   databaseUrl?: string,
 ): postgres.Options<{}> {
-  const url = (databaseUrl ?? process.env.DATABASE_URL)?.trim() ?? "";
+  const url =
+    (databaseUrl !== undefined ? databaseUrl : databaseUrlFromEnv()).trim();
   const disable =
     process.env.DATABASE_SSL_DISABLE === "1" ||
     process.env.PGSSLMODE === "disable";

@@ -2,6 +2,7 @@ import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 
+import { databaseUrlFromEnv } from "./database-url-from-env.mjs";
 import { loadEnvLocal } from "./load-env-local.mjs";
 loadEnvLocal();
 
@@ -42,7 +43,7 @@ function postgresClientOpts(max, databaseUrl) {
   return { ...base, ssl };
 }
 
-const url = process.env.DATABASE_URL?.trim();
+const url = databaseUrlFromEnv();
 if (process.env.SKIP_DB_MIGRATE_ON_BOOT === "1") {
   console.warn(
     "[migrate] SKIP_DB_MIGRATE_ON_BOOT=1 — لا تستخدمين هذا في الإنتاج إلا للتشخيص القصير.",
@@ -60,12 +61,12 @@ if (url) {
 if (!url) {
   if (process.env.NODE_ENV === "production") {
     console.error(
-      "[migrate] DATABASE_URL مطلوب في الإنتاج. في Railway: Variables → DATABASE_URL أو اربطي خدمة Postgres.",
+      "[migrate] رابط Postgres مطلوب في الإنتاج. في Railway: Variables ← مرجع من Postgres أو DATABASE_PUBLIC_URL أو DATABASE_URL.",
     );
     process.exit(1);
   }
   console.warn(
-    "[migrate] DATABASE_URL غير معرّف — تخطّي الترحيلات (تطوير محلي).",
+    "[migrate] رابط قاعدة البيانات غير معرّف — تخطّي الترحيلات (تطوير محلي).",
   );
   process.exit(0);
 }
@@ -82,7 +83,7 @@ function raceMigrate() {
       setTimeout(() => {
         reject(
           new Error(
-            `[migrate] تجاوزت المهمة ${migrateTimeoutMs}ms — راجعي DATABASE_URL أو حددي MIGRATE_BOOT_TIMEOUT_MS`,
+            `[migrate] تجاوزت المهمة ${migrateTimeoutMs}ms — راجعي رابط قاعدة البيانات أو حددي MIGRATE_BOOT_TIMEOUT_MS`,
           ),
         );
       }, migrateTimeoutMs),

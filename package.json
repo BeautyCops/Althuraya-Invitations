@@ -12,7 +12,7 @@
     "build:github-pages": "cross-env GH_PAGES=1 npm run build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
-    "start": "node scripts/run-migrate.mjs && srvx serve --prod --host 0.0.0.0 --dir . --static dist/client --entry dist/server/server.js",
+    "start": "node scripts/run-migrate.mjs && node scripts/serve-production.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/run-migrate.mjs",
     "db:studio": "drizzle-kit studio",

@@ -1,4 +1,4 @@
-import preview from "@/assets/chandelier.png?url";
+import preview from "@/assets/og-share-preview.png?url";
 
 /** صورة المعاينة عند مشاركة الرابط (واتساب، إكس، إلخ). */
 export const SHARE_PREVIEW_IMAGE_HREF = preview;

@@ -10,6 +10,7 @@ import {
   parseCookies,
   serializeCookie,
 } from "@/lib/server/auth/cookies";
+import { effectivePublicRole } from "@/lib/auth/super-admin";
 import { requestIsHttps } from "@/lib/server/auth/request-is-https";
 
 export type PublicUser = {
@@ -91,7 +92,7 @@ export async function getSessionUserFromRequest(
   return {
     id: row.user.id,
     email: row.user.email,
-    role: row.user.role,
+    role: effectivePublicRole(row.user.email),
   };
 }
 

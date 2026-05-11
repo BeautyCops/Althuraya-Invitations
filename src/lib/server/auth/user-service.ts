@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/index";
 import { users } from "@/db/schema";
 import { encryptOptionalPlaintext } from "@/lib/server/crypto-at-rest";
+import { effectivePublicRole } from "@/lib/auth/super-admin";
 import { hashPassword, verifyPassword } from "@/lib/server/auth/password";
 
 export async function createUser(input: {
@@ -35,7 +36,11 @@ export async function createUser(input: {
       role: users.role,
     });
 
-  return row;
+  if (!row) throw new Error("فشل إنشاء المستخدم.");
+  return {
+    ...row,
+    role: effectivePublicRole(row.email),
+  };
 }
 
 export async function verifyUserCredentials(email: string, password: string) {
@@ -53,6 +58,6 @@ export async function verifyUserCredentials(email: string, password: string) {
   return {
     id: row.id,
     email: row.email,
-    role: row.role,
+    role: effectivePublicRole(row.email),
   };
 }

@@ -17,6 +17,7 @@ import {
 import { DEFAULT_DASHBOARD_TAB, type DashboardTab } from "./dashboard-tabs";
 import { useDashboardUser } from "./dashboard-user-context";
 import { DashboardSidebar } from "./DashboardSidebar";
+import { CreateIndividualOccasionWizard } from "./sections/create-individual/CreateIndividualOccasionWizard";
 import { HomeSection } from "./sections/HomeSection";
 import { PlaceholderSection } from "./sections/PlaceholderSection";
 import { SettingsSection } from "./sections/SettingsSection";
@@ -72,6 +73,19 @@ export function DashboardWorkspace({ tab }: { tab: DashboardTab }) {
     switch (tab) {
       case "home":
         return <HomeSection email={user.email} accountKind={accountKind} />;
+      case "create":
+        return accountKind === "individual" ? (
+          <CreateIndividualOccasionWizard />
+        ) : (
+          <PlaceholderSection
+            tab={tab}
+            subtitle="مسار إنشاء الفعاليات للشركات سيُضاف هنا لاحقًا مع صلاحيات تناسب الشركات وفِرق العمل."
+            bullets={[
+              "نسخة متعددة المناسبات والجهات.",
+              "ربط بنفس خطوات الأفراد مع حقول إضافية للشركة.",
+            ]}
+          />
+        );
       case "settings":
         return (
           <SettingsSection

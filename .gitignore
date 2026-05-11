@@ -15,6 +15,9 @@ dist/
 *.local
 .dev.vars
 
+# TanStack Start كاش محلي
+.tanstack/
+
 # نظام
 .DS_Store
 Thumbs.db

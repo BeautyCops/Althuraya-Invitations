@@ -1,4 +1,7 @@
+import { Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
+
+import { LOGIN_PATH } from "@/lib/site-links";
 
 const plans = [
   {
@@ -13,6 +16,8 @@ const plans = [
       "دعم بالبريد الإلكتروني",
     ],
     cta: "ابدأ الآن",
+    ctaHref: LOGIN_PATH,
+    ctaRegister: true,
     highlighted: false,
   },
   {
@@ -42,6 +47,8 @@ const plans = [
       "مدير حساب مخصص",
     ],
     cta: "تواصل مع المبيعات",
+    ctaHref: "#contact",
+    ctaRegister: false,
     highlighted: false,
   },
 ];
@@ -104,16 +111,30 @@ export function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#contact"
-                className={`block text-center py-3 rounded-full font-medium transition-all ${
-                  p.highlighted
-                    ? "bg-th-cream text-th-deep hover:bg-th-lavender-soft"
-                    : "glass text-th-cream hover:bg-th-royal/30"
-                }`}
-              >
-                {p.cta}
-              </a>
+              {p.ctaRegister ? (
+                <Link
+                  to={p.ctaHref}
+                  search={{ mode: "register" }}
+                  className={`block text-center py-3 rounded-full font-medium transition-all ${
+                    p.highlighted
+                      ? "bg-th-cream text-th-deep hover:bg-th-lavender-soft"
+                      : "glass text-th-cream hover:bg-th-royal/30"
+                  }`}
+                >
+                  {p.cta}
+                </Link>
+              ) : (
+                <a
+                  href={p.ctaHref}
+                  className={`block text-center py-3 rounded-full font-medium transition-all ${
+                    p.highlighted
+                      ? "bg-th-cream text-th-deep hover:bg-th-lavender-soft"
+                      : "glass text-th-cream hover:bg-th-royal/30"
+                  }`}
+                >
+                  {p.cta}
+                </a>
+              )}
             </div>
           ))}
         </div>

@@ -10,6 +10,7 @@ import {
   parseCookies,
   serializeCookie,
 } from "@/lib/server/auth/cookies";
+import { requestIsHttps } from "@/lib/server/auth/request-is-https";
 
 export type PublicUser = {
   id: string;
@@ -18,8 +19,7 @@ export type PublicUser = {
 };
 
 function secureFromRequest(request: Request) {
-  const url = new URL(request.url);
-  return url.protocol === "https:";
+  return requestIsHttps(request);
 }
 
 export async function createSessionForUser(

@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MessageCircle } from "lucide-react";
+
+import { LOGIN_PATH } from "@/lib/site-links";
 import type { ContactPayload } from "@/lib/contact-schema";
 
 export function Contact() {
@@ -81,12 +84,13 @@ export function Contact() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-              <a
-                href="mailto:info@Althuraya.store"
-                className="bg-th-cream text-th-deep px-8 py-3.5 rounded-full font-semibold hover:bg-th-lavender-soft transition-colors w-full sm:w-auto"
+              <Link
+                to={LOGIN_PATH}
+                search={{ mode: "register" }}
+                className="bg-th-cream text-th-deep px-8 py-3.5 rounded-full font-semibold hover:bg-th-lavender-soft transition-colors w-full sm:w-auto text-center"
               >
                 ابدأ الآن مجانًا
-              </a>
+              </Link>
               <a
                 href="tel:0547870867"
                 className="glass-strong text-th-cream px-8 py-3.5 rounded-full font-semibold hover:bg-th-royal/30 transition-colors w-full sm:w-auto"

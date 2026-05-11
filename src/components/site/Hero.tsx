@@ -1,5 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+
 import heroPhones from "@/assets/hero-phones.png";
+import { LOGIN_PATH } from "@/lib/site-links";
 
 export function Hero() {
   return (
@@ -34,13 +37,14 @@ export function Hero() {
                 className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-4 sm:mb-5 w-full sm:w-auto max-w-md sm:max-w-none mx-auto lg:mx-0 animate-fade-up"
                 style={{ animationDelay: "0.3s" }}
               >
-                <a
-                  href="#contact"
+                <Link
+                  to={LOGIN_PATH}
+                  search={{ mode: "register" }}
                   className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-gradient-primary text-th-cream px-6 py-3.5 sm:px-7 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold hover:shadow-glow transition-all"
                 >
                   أنشئ دعوتك الآن
                   <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                </a>
+                </Link>
                 <a
                   href="#services"
                   className="inline-flex w-full sm:w-auto items-center justify-center gap-2 glass text-th-cream px-6 py-3.5 sm:px-7 sm:py-3.5 rounded-full text-sm sm:text-base font-medium hover:bg-th-royal/30 transition-colors"

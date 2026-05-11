@@ -13,18 +13,33 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
       try {
         const res = await fetch("/api/auth/me", { credentials: "include" });
         if (cancelled) return;
-        if (res.ok) {
-          setState("ok");
+        if (!res.ok) {
+          setState("redirecting");
+          await navigate({
+            to: "/login",
+            search: { redirect: "/admin" },
+            replace: true,
+          });
           return;
         }
-        setState("redirecting");
-        await navigate({
-          to: "/login",
-          search: { redirect: "/admin" },
-          replace: true,
-        });
+        const data = (await res.json()) as {
+          user?: { role?: string };
+        };
+        if (data.user?.role !== "admin") {
+          setState("redirecting");
+          await navigate({ to: "/account", replace: true });
+          return;
+        }
+        setState("ok");
       } catch {
-        if (!cancelled) setState("redirecting");
+        if (!cancelled) {
+          setState("redirecting");
+          await navigate({
+            to: "/login",
+            search: { redirect: "/admin" },
+            replace: true,
+          });
+        }
       }
     })();
     return () => {

@@ -1,4 +1,7 @@
+import { Link } from "@tanstack/react-router";
+
 import wedding from "@/assets/template-wedding.jpg";
+import { LOGIN_PATH } from "@/lib/site-links";
 import corporate from "@/assets/template-corporate.jpg";
 import birthday from "@/assets/template-birthday.jpg";
 
@@ -42,12 +45,13 @@ export function Templates() {
               أكثر من ١٠٠ تصميم حصري يغطّي كل أنواع المناسبات.
             </p>
           </div>
-          <a
-            href="#contact"
+          <Link
+            to={LOGIN_PATH}
+            search={{ mode: "register" }}
             className="inline-flex items-center gap-2 glass rounded-full px-5 py-2.5 text-sm text-th-cream hover:bg-th-royal/30 transition-colors self-start"
           >
             عرض كل القوالب ←
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

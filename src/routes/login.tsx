@@ -1,12 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { DEFAULT_USER_REDIRECT } from "@/lib/site-links";
 
 export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({
     redirect:
       typeof search.redirect === "string" && search.redirect.startsWith("/")
         ? search.redirect
-        : "/admin",
+        : DEFAULT_USER_REDIRECT,
+    mode: search.mode === "register" ? ("register" as const) : ("login" as const),
   }),
   head: () => ({
     meta: [
@@ -18,8 +21,15 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-  const { redirect } = Route.useSearch();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const search = Route.useSearch();
+  const { redirect, mode: modeFromUrl } = search;
+  const [mode, setMode] = useState<"login" | "register">(
+    modeFromUrl === "register" ? "register" : "login",
+  );
+
+  useEffect(() => {
+    setMode(modeFromUrl === "register" ? "register" : "login");
+  }, [modeFromUrl]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -50,7 +60,16 @@ function LoginPage() {
         setError(data.message ?? "حدث خطأ. حاول مرة أخرى.");
         return;
       }
-      window.location.assign(redirect);
+      const meRes = await fetch("/api/auth/me", { credentials: "include" });
+      const me = meRes.ok
+        ? ((await meRes.json()) as { user?: { role?: string } })
+        : null;
+      const role = me?.user?.role;
+      let target = redirect;
+      if (target === "/admin" && role !== "admin") {
+        target = DEFAULT_USER_REDIRECT;
+      }
+      window.location.assign(target);
     } catch {
       setError("تعذر الاتصال بالخادم.");
     } finally {
@@ -71,7 +90,7 @@ function LoginPage() {
           >
             ← العودة للرئيسية
           </Link>
-          <h1 className="mt-4 text-2xl font-bold text-th-cream">لوحة التحكم</h1>
+          <h1 className="mt-4 text-2xl font-bold text-th-cream">الثريا</h1>
           <p className="mt-2 text-sm text-th-lavender/70">
             {mode === "login" ? "سجّلي الدخول للمتابعة" : "أنشئي حسابًا جديدًا"}
           </p>

@@ -4,6 +4,7 @@ import { registerBodySchema } from "@/lib/server/auth/schemas";
 import {
   createSessionForUser,
   getSessionUserFromRequest,
+  revokeSessionByRequest,
 } from "@/lib/server/auth/session-service";
 import { createUser } from "@/lib/server/auth/user-service";
 
@@ -15,10 +16,7 @@ export const Route = createFileRoute("/api/auth/register")({
           () => null,
         );
         if (existing) {
-          return Response.json(
-            { ok: false, message: "أنت مسجّل الدخول بالفعل." },
-            { status: 400 },
-          );
+          await revokeSessionByRequest(request).catch(() => undefined);
         }
 
         let body: unknown;

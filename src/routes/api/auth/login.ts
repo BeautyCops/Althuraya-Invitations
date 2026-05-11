@@ -4,6 +4,7 @@ import { loginBodySchema } from "@/lib/server/auth/schemas";
 import {
   createSessionForUser,
   getSessionUserFromRequest,
+  revokeSessionByRequest,
 } from "@/lib/server/auth/session-service";
 import { verifyUserCredentials } from "@/lib/server/auth/user-service";
 
@@ -11,14 +12,12 @@ export const Route = createFileRoute("/api/auth/login")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        /* كوكي قديم قد يبقى من زيارة سابقة؛ نُبطل الجلسة ثم نُكمِل بدل رفض الطلب. */
         const existing = await getSessionUserFromRequest(request).catch(
           () => null,
         );
         if (existing) {
-          return Response.json(
-            { ok: false, message: "أنت مسجّل الدخول بالفعل." },
-            { status: 400 },
-          );
+          await revokeSessionByRequest(request).catch(() => undefined);
         }
 
         let body: unknown;

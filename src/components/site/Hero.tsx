@@ -26,9 +26,9 @@ export function Hero() {
                 className="text-[0.95rem] sm:text-lg text-th-cream/75 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-up"
                 style={{ animationDelay: "0.2s" }}
               >
-                صمّم، أرسل، وأدر دعواتك الإلكترونية لحفلات الزفاف والمؤتمرات
-                والفعاليات الخاصة بكل سهولة — مع نظام RSVP ذكي وتحليلات حضور
-                لحظية.
+                صمّم، أرسل، وأدر دعواتك الإلكترونية للمناسبات الخاصة أو
+                المؤتمرات والفعاليات العامة بكل سهولة — مع نظام RSVP ذكي
+                وتحليلات حضور لحظية.
               </p>
             </div>
 
